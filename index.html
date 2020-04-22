@@ -40,7 +40,7 @@
 
         <div class="form-group">
             <label for="message">Enter the message to send</label>
-            <textarea id="message" class="form-control" required=""> </textarea>
+            <textarea id="message" class="form-control" required="" required> </textarea>
         </div>
         <div class="form-group">
             <input type="submit" id="submit-file" class="btn btn-primary" />
@@ -133,50 +133,91 @@
             });
         })
 
-
-        function par() {
-            const regexPattern = "\{\{([^)^{^}]+)\}\}"
-            var message = document.getElementById("message").value;
-            const numberCol = document.getElementById("nameselect").value;
-            const nameCol = document.getElementById("numberselect").value;
-
-            // console.log(numberCol);
-            // console.log(nameCol);
-            console.log(csvData)
-
-
+        function getCleanNumber(num) {
+            matches = num.match(/\d+/g);
+            var num_clean = ""
+            _.forEach(matches, function (match) {
+                num_clean += match
+            })
+            if (num_clean.length == 10) {
+                num_clean = "91" + num_clean;
+            }
+            return num_clean;
+        }
+        function titleCase(str) {
+            str = str.toLowerCase().split(' ');
+            for (var i = 0; i < str.length; i++) {
+                str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+            }
+            return str.join(' ');
+        }
+        function getMessageToSend(message, name) {
+            var newMessage = message;
+            if (name) {
+                newMessage = `Hi ${name},\n` + message
+            } else {
+                newMessage = `Hi,\n` + message
+            }
+            return newMessage;
 
         }
+
+        var tabWindow = null;
+        var urlsList = [];
+        var timer = null;
+
+
+        function openURLinWindow(url) {
+            console.log(url);
+            var win = window.open(url);
+            return win
+        }
+
+        function polling() {
+            console.log("waiting");
+            console.log(urlsList)
+            if (urlsList.length == 0) {
+                console.log("no urls left")
+                clearInterval(window.timer);
+                return;
+            }
+            if (tabWindow && tabWindow.closed) {
+                tabWindow = openURLinWindow(urlsList.pop())
+            }
+        }
+
+        function par() {
+            const numberCol = document.getElementById("numberselect").value;
+            const nameCol = document.getElementById("nameselect").value;
+            var messageStr = document.getElementById("message").value;
+            _.forEach(csvData, function (data) {
+                const clean_number = getCleanNumber(data[numberCol]);
+                const name = titleCase(data[nameCol]);
+                const clean_message = getMessageToSend(messageStr, name);
+                var url = `https://web.whatsapp.com/send?phone=${clean_number}&text=${clean_message}`;
+                urlsList.push(url);
+            })
+            tabWindow = openURLinWindow(urlsList.pop())
+            console.log(urlsList);
+            window.timer = setInterval('polling()', 1000);
+        }
+
+        console.log()
 
 
 
 
         console.log("It begins")
 
-        //     function openAndPush(url, id) {
-        //                     console.log(url);
-        //                     var win = window.open(url);
-        //                     return win
-        //                 }
+
         // var win;
         // urls = ["https://web.whatsapp.com/send?phone=919098854207&text=message 1", "https://web.whatsapp.com/send?phone=919098854207&text=message 2", "https://web.whatsapp.com/send?phone=919098854207&text=message 3", "https://web.whatsapp.com/send?phone=919098854207&text=message 4", "https://web.whatsapp.com/send?phone=919098854207&text=message 5"]
         // win = openAndPush("https://web.whatsapp.com/send?phone=919098854207&text=base message", "")
 
 
 
-        // function polling(){
-        //             console.log("waiting");
-        //             // console.log(win);
-        //             console.log(urls)
-        //             if (urls.length == 0){
-        //                 clearInterval(timer);
-        //                 return;
-        //             }
-        //             if (win && win.closed) {                    
-        //             win = openAndPush(urls.pop())
-        //             }
-        //             }
-        // timer = setInterval('polling()',1000);
+
+        // 
 
 
     </script>

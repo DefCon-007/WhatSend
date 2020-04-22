@@ -1,0 +1,113 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="papparse.min.js"></script>
+</head>
+<body>
+
+    <form class="form-inline" onsubmit="par();return false;">
+        <div class="form-group">
+          <label for="files">Upload a CSV formatted file:</label>
+          <input type="file" id="files" class="form-control" accept=".csv" required="">
+        </div>
+        <div class="form-group">
+         <input type="submit" id="submit-file" class="btn btn-primary">Upload File</button>
+         </div>
+    </form>
+
+<div id="parsed_csv_list"></div>
+    
+    <script>
+
+function displayHTMLTable(results){
+    console.log("Disthe ljnfs")
+    console.log(results)
+	var table = "<table class='table'>";
+	var data = results.data;
+	 
+	for(i=0;i<data.length;i++){
+		table+= "<tr>";
+		var row = data[i];
+		var cells = row.join(",").split(",");
+		 
+		for(j=0;j<cells.length;j++){
+			table+= "<td>";
+			table+= cells[j];
+			table+= "</th>";
+		}
+		table+= "</tr>";
+	}
+    table+= "</table>";
+    elem = document.getElementById("parsed_csv_list");
+    elem.innerHTML = table;
+	// $("#").innerHTML = table;
+}
+function par(){
+    console.log("sjfnf ")
+    $('#files').parse({
+                config: {
+                    delimiter: "auto",
+                    complete: displayHTMLTable,
+                },
+                before: function(file, inputElem)
+                {
+                    //console.log("Parsing file...", file);
+                },
+                error: function(err, file)
+                {
+                    //console.log("ERROR:", err, file);
+                },
+                complete: function()
+                {
+                    //console.log("Done with all files");
+                }
+            });
+}
+
+       
+
+
+        console.log("It begins")
+
+        //     function openAndPush(url, id) {
+        //                     console.log(url);
+        //                     var win = window.open(url);
+        //                     return win
+        //                 }
+        // var win;
+        // urls = ["https://web.whatsapp.com/send?phone=919098854207&text=message 1", "https://web.whatsapp.com/send?phone=919098854207&text=message 2", "https://web.whatsapp.com/send?phone=919098854207&text=message 3", "https://web.whatsapp.com/send?phone=919098854207&text=message 4", "https://web.whatsapp.com/send?phone=919098854207&text=message 5"]
+        // win = openAndPush("https://web.whatsapp.com/send?phone=919098854207&text=base message", "")
+
+
+            
+        // function polling(){
+        //             console.log("waiting");
+        //             // console.log(win);
+        //             console.log(urls)
+        //             if (urls.length == 0){
+        //                 clearInterval(timer);
+        //                 return;
+        //             }
+        //             if (win && win.closed) {                    
+        //             win = openAndPush(urls.pop())
+        //             }
+        //             }
+        // timer = setInterval('polling()',1000);
+
+
+    </script>
+
+
+
+</body></html>

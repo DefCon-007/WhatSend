@@ -40,7 +40,7 @@
 
         <div class="form-group">
             <label for="message">Enter the message to send</label>
-            <textarea id="message" class="form-control" required="" required> </textarea>
+            <textarea id="message" class="form-control" required> </textarea>
         </div>
         <div class="form-group">
             <input type="submit" id="submit-file" class="btn btn-primary" />
@@ -122,7 +122,7 @@
                 },
                 error: function (err, file) {
                     Swal.fire({
-                        icon: 'errir',
+                        icon: 'error',
                         title: 'Unable to process file, please try with different file'
                     }
                     );
@@ -162,27 +162,26 @@
 
         }
 
-        var tabWindow = null;
         var urlsList = [];
         var timer = null;
-
+        window.tabWindows = false;
 
         function openURLinWindow(url) {
-            console.log(url);
-            var win = window.open(url);
-            return win
+            return window.open(url, "com_defcon007_whatsSend");
         }
 
-        function polling() {
-            console.log("waiting");
-            console.log(urlsList)
+        async function polling() {
             if (urlsList.length == 0) {
-                console.log("no urls left")
+                Swal.fire({
+                    icon: 'success',
+                    title: 'All messages sent!'
+                }
+                );
                 clearInterval(window.timer);
                 return;
             }
-            if (tabWindow && tabWindow.closed) {
-                tabWindow = openURLinWindow(urlsList.pop())
+            if (window.tabWindow && window.tabWindow.closed) {
+                window.tabWindow = openURLinWindow(urlsList.pop())
             }
         }
 
@@ -190,6 +189,7 @@
             const numberCol = document.getElementById("numberselect").value;
             const nameCol = document.getElementById("nameselect").value;
             var messageStr = document.getElementById("message").value;
+
             _.forEach(csvData, function (data) {
                 const clean_number = getCleanNumber(data[numberCol]);
                 const name = titleCase(data[nameCol]);
@@ -197,32 +197,10 @@
                 var url = `https://web.whatsapp.com/send?phone=${clean_number}&text=${clean_message}`;
                 urlsList.push(url);
             })
-            tabWindow = openURLinWindow(urlsList.pop())
-            console.log(urlsList);
+            window.tabWindow = openURLinWindow(urlsList.pop())
             window.timer = setInterval('polling()', 1000);
         }
-
-        console.log()
-
-
-
-
-        console.log("It begins")
-
-
-        // var win;
-        // urls = ["https://web.whatsapp.com/send?phone=919098854207&text=message 1", "https://web.whatsapp.com/send?phone=919098854207&text=message 2", "https://web.whatsapp.com/send?phone=919098854207&text=message 3", "https://web.whatsapp.com/send?phone=919098854207&text=message 4", "https://web.whatsapp.com/send?phone=919098854207&text=message 5"]
-        // win = openAndPush("https://web.whatsapp.com/send?phone=919098854207&text=base message", "")
-
-
-
-
-        // 
-
-
     </script>
-
-
 
 </body>
 

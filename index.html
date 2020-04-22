@@ -51,30 +51,6 @@
 
     <script>
         var csvData; null;
-        function displayHTMLTable(results) {
-            console.log("Disthe ljnfs")
-            console.log(results['data'][0])
-            debugger;
-            var table = "<table class='table'>";
-            var data = results.data;
-
-            for (i = 0; i < data.length; i++) {
-                table += "<tr>";
-                var row = data[i];
-                var cells = row.join(",").split(",");
-
-                for (j = 0; j < cells.length; j++) {
-                    table += "<td>";
-                    table += cells[j];
-                    table += "</th>";
-                }
-                table += "</tr>";
-            }
-            table += "</table>";
-            elem = document.getElementById("parsed_csv_list");
-            elem.innerHTML = table;
-            // $("#").innerHTML = table;
-        }
 
         function removeOptions(selectElement) {
             var i, L = selectElement.options.length - 1;
@@ -84,11 +60,8 @@
         }
 
         function processParsedCSV(results) {
-            console.log("Parsing")
-            console.log(results)
             csvData = results['data'];
             const keys = _.keys(_.first(results['data']));
-            console.log(keys);
 
             //Add options for the dropdown 
             var name_dropdown = document.getElementById("nameselect");
@@ -96,9 +69,7 @@
             removeOptions(name_dropdown);
             removeOptions(number_dropdown);
 
-            console.log(name_dropdown)
             _.forEach(keys, key => {
-                console.log(key);
                 var opt = document.createElement("option");
                 opt.text = key;
                 opt.value = key;
@@ -118,7 +89,6 @@
                     complete: processParsedCSV,
                 },
                 before: function (file, inputElem) {
-                    //console.log("Parsing file...", file);
                 },
                 error: function (err, file) {
                     Swal.fire({

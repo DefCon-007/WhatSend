@@ -11,18 +11,35 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.js" integrity="sha256-iAuxnf8Cwr0yrQkpf6oQG4PaL/oVmoer6V/RfX2KQws=" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <form class="form-inline" onsubmit="par();return false;">
+    <form class="" onsubmit="par();return false;">
         <div class="form-group">
           <label for="files">Upload a CSV formatted file:</label>
-          <input type="file" id="files" class="form-control" accept=".csv" required="">
+          <input type="file" id="files" class="form-control" accept=".csv" >
         </div>
         <div class="form-group">
-         <input type="submit" id="submit-file" class="btn btn-primary">Upload File</button>
+            <label for="nameselect">Selec column for name</label>
+            <select id="nameselect">
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="numberselect">Selec column for number</label>
+            <select id="numberselect">
+            </select>
+        </div>
+
+            <div class="form-group">
+            <label for="message">Enter the message to send</label>
+            <textarea id="message" class="form-control" required=""> </textarea>
+          </div>
+        <div class="form-group">
+         <input type="submit" id="submit-file" class="btn btn-primary" />
          </div>
     </form>
 
@@ -32,7 +49,8 @@
 
 function displayHTMLTable(results){
     console.log("Disthe ljnfs")
-    console.log(results)
+    console.log(results['data'][0])
+    debugger;
 	var table = "<table class='table'>";
 	var data = results.data;
 	 
@@ -53,12 +71,36 @@ function displayHTMLTable(results){
     elem.innerHTML = table;
 	// $("#").innerHTML = table;
 }
-function par(){
-    console.log("sjfnf ")
+
+function processParsedCSV(results){
+    console.log("Parsing")
+    console.log(results)
+    const keys = _.keys(_.first(results['data']));
+    console.log(keys);
+
+    //Add options for the dropdown 
+    var name_dropdown = document.getElementById("nameselect");
+    var number_dropdown = document.getElementById("numberselect");
+    console.log(name_dropdown)
+    _.forEach(keys, key => {
+        console.log(key);
+        var opt = document.createElement("option"); 
+        opt.text = key;
+        opt.value = key;
+        name_dropdown.options.add(opt.cloneNode(true));
+        number_dropdown.options.add(opt);
+    });
+
+
+}
+
+$('#files').change(function(event){
+    // File changed, parse it
     $('#files').parse({
                 config: {
-                    delimiter: "auto",
-                    complete: displayHTMLTable,
+                    
+                    header: true,
+                    complete: processParsedCSV,
                 },
                 before: function(file, inputElem)
                 {
@@ -66,13 +108,41 @@ function par(){
                 },
                 error: function(err, file)
                 {
-                    //console.log("ERROR:", err, file);
+                    Swal.fire({
+                            icon: 'errir',
+                            title: 'Unable to process file, please try with different file'
+                        }
+                            );
                 },
                 complete: function()
                 {
-                    //console.log("Done with all files");
+                    // swal.complete()
+                    Swal.fire({
+                            icon: 'success',
+                            title: 'Processing file complete'
+                        }
+                            );
                 }
             });
+})
+
+
+function par(){
+    const regexPattern = "\{\{([^)^{^}]+)\}\}"
+    var message = document.getElementById("message").value;
+    const numberCol = document.getElementById("nameselect").value;
+    const nameCol = document.getElementById("numberselect").value;
+
+    console.log(numberCol);
+    console.log(nameCol);
+    
+    var swal = Swal.fire({
+        icon: 'info',
+        title: 'Processing file'
+    }
+        );
+    console.log(swal);
+    
 }
 
        

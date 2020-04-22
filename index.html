@@ -1,9 +1,11 @@
-<html><head>
+<html>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
     <!-- jQuery library -->
@@ -13,14 +15,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.js" integrity="sha256-iAuxnf8Cwr0yrQkpf6oQG4PaL/oVmoer6V/RfX2KQws=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.js"
+        integrity="sha256-iAuxnf8Cwr0yrQkpf6oQG4PaL/oVmoer6V/RfX2KQws=" crossorigin="anonymous"></script>
 </head>
+
 <body>
 
     <form class="" onsubmit="par();return false;">
         <div class="form-group">
-          <label for="files">Upload a CSV formatted file:</label>
-          <input type="file" id="files" class="form-control" accept=".csv" >
+            <label for="files">Upload a CSV formatted file:</label>
+            <input type="file" id="files" class="form-control" accept=".csv" required>
         </div>
         <div class="form-group">
             <label for="nameselect">Selec column for name</label>
@@ -34,118 +38,117 @@
             </select>
         </div>
 
-            <div class="form-group">
+        <div class="form-group">
             <label for="message">Enter the message to send</label>
             <textarea id="message" class="form-control" required=""> </textarea>
-          </div>
+        </div>
         <div class="form-group">
-         <input type="submit" id="submit-file" class="btn btn-primary" />
-         </div>
+            <input type="submit" id="submit-file" class="btn btn-primary" />
+        </div>
     </form>
 
-<div id="parsed_csv_list"></div>
-    
+    <div id="parsed_csv_list"></div>
+
     <script>
+        var csvData; null;
+        function displayHTMLTable(results) {
+            console.log("Disthe ljnfs")
+            console.log(results['data'][0])
+            debugger;
+            var table = "<table class='table'>";
+            var data = results.data;
 
-function displayHTMLTable(results){
-    console.log("Disthe ljnfs")
-    console.log(results['data'][0])
-    debugger;
-	var table = "<table class='table'>";
-	var data = results.data;
-	 
-	for(i=0;i<data.length;i++){
-		table+= "<tr>";
-		var row = data[i];
-		var cells = row.join(",").split(",");
-		 
-		for(j=0;j<cells.length;j++){
-			table+= "<td>";
-			table+= cells[j];
-			table+= "</th>";
-		}
-		table+= "</tr>";
-	}
-    table+= "</table>";
-    elem = document.getElementById("parsed_csv_list");
-    elem.innerHTML = table;
-	// $("#").innerHTML = table;
-}
+            for (i = 0; i < data.length; i++) {
+                table += "<tr>";
+                var row = data[i];
+                var cells = row.join(",").split(",");
 
-function processParsedCSV(results){
-    console.log("Parsing")
-    console.log(results)
-    const keys = _.keys(_.first(results['data']));
-    console.log(keys);
+                for (j = 0; j < cells.length; j++) {
+                    table += "<td>";
+                    table += cells[j];
+                    table += "</th>";
+                }
+                table += "</tr>";
+            }
+            table += "</table>";
+            elem = document.getElementById("parsed_csv_list");
+            elem.innerHTML = table;
+            // $("#").innerHTML = table;
+        }
 
-    //Add options for the dropdown 
-    var name_dropdown = document.getElementById("nameselect");
-    var number_dropdown = document.getElementById("numberselect");
-    console.log(name_dropdown)
-    _.forEach(keys, key => {
-        console.log(key);
-        var opt = document.createElement("option"); 
-        opt.text = key;
-        opt.value = key;
-        name_dropdown.options.add(opt.cloneNode(true));
-        number_dropdown.options.add(opt);
-    });
+        function removeOptions(selectElement) {
+            var i, L = selectElement.options.length - 1;
+            for (i = L; i >= 0; i--) {
+                selectElement.remove(i);
+            }
+        }
+
+        function processParsedCSV(results) {
+            console.log("Parsing")
+            console.log(results)
+            csvData = results['data'];
+            const keys = _.keys(_.first(results['data']));
+            console.log(keys);
+
+            //Add options for the dropdown 
+            var name_dropdown = document.getElementById("nameselect");
+            var number_dropdown = document.getElementById("numberselect");
+            removeOptions(name_dropdown);
+            removeOptions(number_dropdown);
+
+            console.log(name_dropdown)
+            _.forEach(keys, key => {
+                console.log(key);
+                var opt = document.createElement("option");
+                opt.text = key;
+                opt.value = key;
+                name_dropdown.options.add(opt.cloneNode(true));
+                number_dropdown.options.add(opt);
+            });
 
 
-}
+        }
 
-$('#files').change(function(event){
-    // File changed, parse it
-    $('#files').parse({
+        $('#files').change(function (event) {
+            // File changed, parse it
+            $('#files').parse({
                 config: {
-                    
+
                     header: true,
                     complete: processParsedCSV,
                 },
-                before: function(file, inputElem)
-                {
+                before: function (file, inputElem) {
                     //console.log("Parsing file...", file);
                 },
-                error: function(err, file)
-                {
+                error: function (err, file) {
                     Swal.fire({
-                            icon: 'errir',
-                            title: 'Unable to process file, please try with different file'
-                        }
-                            );
+                        icon: 'errir',
+                        title: 'Unable to process file, please try with different file'
+                    }
+                    );
                 },
-                complete: function()
-                {
-                    // swal.complete()
-                    Swal.fire({
-                            icon: 'success',
-                            title: 'Processing file complete'
-                        }
-                            );
+                complete: function () {
+
                 }
             });
-})
+        })
 
 
-function par(){
-    const regexPattern = "\{\{([^)^{^}]+)\}\}"
-    var message = document.getElementById("message").value;
-    const numberCol = document.getElementById("nameselect").value;
-    const nameCol = document.getElementById("numberselect").value;
+        function par() {
+            const regexPattern = "\{\{([^)^{^}]+)\}\}"
+            var message = document.getElementById("message").value;
+            const numberCol = document.getElementById("nameselect").value;
+            const nameCol = document.getElementById("numberselect").value;
 
-    console.log(numberCol);
-    console.log(nameCol);
-    
-    var swal = Swal.fire({
-        icon: 'info',
-        title: 'Processing file'
-    }
-        );
-    console.log(swal);
-    
-}
+            // console.log(numberCol);
+            // console.log(nameCol);
+            console.log(csvData)
 
-       
+
+
+        }
+
+
 
 
         console.log("It begins")
@@ -160,7 +163,7 @@ function par(){
         // win = openAndPush("https://web.whatsapp.com/send?phone=919098854207&text=base message", "")
 
 
-            
+
         // function polling(){
         //             console.log("waiting");
         //             // console.log(win);
@@ -180,4 +183,6 @@ function par(){
 
 
 
-</body></html>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="48" height="48" viewBox="0 0 12.7 12.7" version="1.1" id="svg8" inkscape:version="0.91 r13725" sodipodi:docname="warning-hazard-danger-caution-alert-sign.svg">
+  <defs id="defs2">
+    <inkscape:path-effect effect="fillet-chamfer" id="path-effect6194-9" is_visible="true" fillet_chamfer_values="-2.083553,1 | -1.5194253,1 | 0,1" method="auto" radius="2" chamfer_steps="1" helper_size="0" flexible="false" use_knot_distance="false" ignore_radius_0="false" only_selected="true" hide_knots="false"/>
+    <inkscape:path-effect effect="fillet-chamfer" id="path-effect6200-3" is_visible="true" fillet_chamfer_values="0,0 | -2.1346047,1 | -1.3969861,1 | -0.057274208,1 | -0.16666667,1" method="auto" radius="0.5" chamfer_steps="1" helper_size="0" flexible="false" use_knot_distance="false" ignore_radius_0="false" only_selected="true" hide_knots="false"/>
+    <pattern y="0" x="0" height="6" width="6" patternUnits="userSpaceOnUse" id="EMFhbasepattern"/>
+    <pattern y="0" x="0" height="6" width="6" patternUnits="userSpaceOnUse" id="EMFhbasepattern-6"/>
+    <inkscape:path-effect effect="fillet-chamfer" id="path-effect6795-9" is_visible="true" fillet_chamfer_values="0,0 | -2,1 | -2,1 | -2,1" method="auto" radius="2" chamfer_steps="1" helper_size="0" flexible="false" use_knot_distance="false" ignore_radius_0="false" only_selected="true" hide_knots="false"/>
+    <pattern y="0" x="0" height="6" width="6" patternUnits="userSpaceOnUse" id="EMFhbasepattern-4"/>
+    <pattern y="0" x="0" height="6" width="6" patternUnits="userSpaceOnUse" id="EMFhbasepattern-3"/>
+    <pattern y="0" x="0" height="6" width="6" patternUnits="userSpaceOnUse" id="EMFhbasepattern-0"/>
+  </defs>
+  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="3.959798" inkscape:cx="-41.590296" inkscape:cy="32.657288" inkscape:document-units="mm" inkscape:current-layer="layer1" showgrid="true" units="px" inkscape:window-width="1366" inkscape:window-height="716" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1">
+    <inkscape:grid type="xygrid" id="grid4726"/>
+  </sodipodi:namedview>
+  
+  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-284.29999)">
+    <g transform="matrix(-0.26458333,0,0,0.26458333,311.42749,-65.159238)" id="g17796">
+      <path inkscape:connector-curvature="0" style="opacity:1;fill:#ffca07;fill-opacity:1;stroke:none;stroke-width:0.26458335;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" d="m 1177.0488,1344.7908 a 24,24 0 0 0 -24,-24 24,24 0 0 0 -24,24 24,24 0 0 0 24,24 24,24 0 0 0 24,-24 z" id="path17790"/>
+      <g transform="translate(1137.0491,307.93593)" id="g17794" style="fill:#ffffff">
+        <path style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 345.45312,234.27539 a 1.5123423,1.5030274 0 0 0 -1.24023,0.75586 l -9.49219,16.50977 a 1.5123423,1.5030274 0 0 0 1.3125,2.24804 l 18.98633,0 a 1.5123423,1.5030274 0 0 0 1.3125,-2.24804 l -9.49219,-16.50977 a 1.5123423,1.5030274 0 0 0 -1.38672,-0.75586 z m 0.0664,5.75586 a 0.50005,0.50005 0 0 1 0.50781,0.50586 l 0,6.74414 a 0.50005,0.50005 0 1 1 -1,0 l 0,-6.74414 a 0.50005,0.50005 0 0 1 0.49219,-0.50586 z m -0.0273,8.75781 a 0.5,0.5 0 0 1 0.0351,0 0.5,0.5 0 0 1 0.5,0.5 0.5,0.5 0 0 1 -0.5,0.5 0.5,0.5 0 0 1 -0.5,-0.5 0.5,0.5 0 0 1 0.46485,-0.5 z" transform="translate(-329.52661,792.82353)" id="path17792" inkscape:connector-curvature="0"/>
+      </g>
+    </g>
+  </g>
+
+	<metadata>
+		<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+			<rdf:Description about="https://iconscout.com/legal#licenses" dc:title="warning-hazard-danger-caution-alert-sign" dc:description="warning-hazard-danger-caution-alert-sign" dc:publisher="Iconscout" dc:date="2017-04-11" dc:format="image/svg+xml" dc:language="en">
+				<dc:creator>
+					<rdf:Bag>
+						<rdf:li>Vignesh Oviyan</rdf:li>
+					</rdf:Bag>
+				</dc:creator>
+			</rdf:Description>
+		</rdf:RDF>
+    </metadata></svg>

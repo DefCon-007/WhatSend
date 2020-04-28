@@ -24,3 +24,9 @@
 .emoji {
   vertical-align: middle;
 }
+
+#logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+}

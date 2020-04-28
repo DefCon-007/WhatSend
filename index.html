@@ -39,6 +39,9 @@
 </head>
 
 <body>
+    <div id="logo">
+        <img src="./images/logo.png" height="50px">
+    </div>
     <form style="padding-left: 10%;padding-right: 10%;padding-top: 5%;" onsubmit="formSubmit();return false;">
         <div>
             <h3>Follow the below instructions to send a message to multiple people on WhatsApp.</h3>
@@ -304,6 +307,9 @@
                 var messageStr = document.getElementById("message").value;
 
                 _.forEach(csvData, function (data, index) {
+                    if (!(data[numberCol])) {
+                        return;
+                    }
                     console.log(data)
                     const clean_number = getCleanNumber(data[numberCol]);
                     const name = titleCase(data[nameCol]);

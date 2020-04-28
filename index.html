@@ -39,17 +39,50 @@
 </head>
 
 <body>
-    <form style="padding-left: 10%;padding-right: 10%;padding-top: 5%;" onsubmit="parseFormData();return false;">
+    <form style="padding-left: 10%;padding-right: 10%;padding-top: 5%;" onsubmit="formSubmit();return false;">
         <div>
-            <h2>Download the extension zip by clicking <a target="_blank"
-                    href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip">here</a>.</h2>
-            <br>
-            Instructions to load the unpacked extension <a target="_blank"
-                href="https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/">here.</a><br><br>
+            <h3>Follow the below instructions to send a message to multiple people on WhatsApp.</h3>
 
+            <ol>
+                <li>Make sure you can access WhatsApp web in the current browser.
+                    <ul>
+                        <li>
+                            Open WhatsApp web in a new tab by clicking <a href="https://web.whatsapp.com"
+                                target="_blank">here</a>.
+                        </li>
+                        <li>
+                            Log in with the account you wish to send message from, if not already logged in.
+                        </li>
+                        <li>
+                            If you are logged in at other places too, you will see option to use WhatsApp web here.
+                            Click `Use here` option.
+                        </li>
+                        <li>
+                            Close the tab.
+                        </li>
+                    </ul>
+                </li>
+                <li>Download the helper chrome extension from <a
+                        href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip">here</a> and load it
+                    in the browser by following the instructions from <a
+                        href="https://github.com/DefCon-007/WhatSend-extension/wiki/Installation">here</a>.
+                </li>
+                <li>
+                    You are good to go now. Just select the corresponding CSV file and then select the columns for name
+                    and mobile number, whatever message you type in the box below, value from name columns will
+                    automatically be appended to it.<br><br> i.e. if the message is, <span style="color:grey">This is a
+                        message</span>, following text will be sent to user whose name is UserName,<br><span
+                        style="color: #68d10d;">Hi
+                        Username,<br>This is a
+                        message</span><br>If name is not found in a row, the message will be as follows:<br>
+                    <span style="color: #68d10d;">Hi,<br>This is a
+                        message</span>
+                </li>
+            </ol>
         </div>
+        <hr>
         <div class="form-group">
-            <label for="files">Upload a CSV formatted file:</label>
+            <label for="files">Upload a CSV file:</label>
             <input type="file" id="files" class="form-control" accept=".csv" required>
         </div>
         <div class="form-group">
@@ -71,8 +104,11 @@
         <div class="form-group">
             <input type="submit" id="submit-file" class="btn btn-primary" />
         </div>
+        <hr>
     </form>
 
+    <h3 style="padding-left: 10%;padding-right: 10%;padding-top: 1%;">Processed numbers</h3>
+    <br>
     <div class="container">
         <table class="table table-striped table-bordered" id="table-id">
             <thead>
@@ -86,7 +122,13 @@
             <tbody>
             <tbody>
         </table>
-
+        <p class="footer-heart">
+            Made with <g-emoji class="g-emoji" alias="heart"
+                fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png">
+                <img class="emoji" alt="heart" height="20" width="20"
+                    src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png"></g-emoji> by <a
+                href="https://defcon007.com" target="_blank">Ayush</a>
+        </p>
         <script>
             var csvData; null;
             var table_element = null;
@@ -235,6 +277,25 @@
                 if (window.tabWindow && window.tabWindow.closed) {
                     window.tabWindow = openURLinWindow(urlsList.pop())
                 }
+            }
+
+            function formSubmit() {
+                var messageStr = document.getElementById("message").value;
+                var msg = getMessageToSend(messageStr, "NAME").replace(new RegExp("\n", 'g'), "<br>");
+                console.log(msg);
+                Swal.fire({
+                    title: 'Following message will be sent to numbers in the file.',
+                    html: msg,
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#25cf19',
+                    cancelButtonColor: '#db1818',
+                    confirmButtonText: 'Yes, send it!'
+                }).then((result) => {
+                    if (result.value) {
+                        parseFormData();
+                    }
+                })
             }
 
             function parseFormData() {

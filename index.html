@@ -4,29 +4,42 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>WhatSend</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-    <link rel="manifest" href="./site.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png">
+    <link rel="manifest" href="./favicons/site.webmanifest">
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom css file -->
+    <link rel="stylesheet" type="text/css" href="./style.css" />
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.js"
         integrity="sha256-iAuxnf8Cwr0yrQkpf6oQG4PaL/oVmoer6V/RfX2KQws=" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.20/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.20/datatables.min.js"></script>
+
 </head>
 
 <body>
-
-    <form style="padding-left: 10%;padding-right: 10%;padding-top: 5%;" onsubmit=" par();return false;">
+    <form style="padding-left: 10%;padding-right: 10%;padding-top: 5%;" onsubmit="parseFormData();return false;">
         <div>
             <h2>Download the extension zip by clicking <a target="_blank"
                     href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip">here</a>.</h2>
@@ -60,130 +73,204 @@
         </div>
     </form>
 
-    <div id="parsed_csv_list"></div>
+    <div class="container">
+        <table class="table table-striped table-bordered" id="table-id">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Number</th>
+                    <th data-type="@data-sort">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tbody>
+        </table>
 
-    <script>
-        var csvData; null;
+        <script>
+            var csvData; null;
+            var table_element = null;
 
-        function removeOptions(selectElement) {
-            var i, L = selectElement.options.length - 1;
-            for (i = L; i >= 0; i--) {
-                selectElement.remove(i);
+            $.fn.dataTable.ext.order['dom-image-check'] = function (settings, col) {
+                return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+                    if (td.getAttribute('data-sort') === "success") {
+                        return '1'
+                    } else {
+                        return '0'
+                    }
+                });
             }
-        }
 
-        function processParsedCSV(results) {
-            csvData = results['data'];
-            const keys = _.keys(_.first(results['data']));
-
-            //Add options for the dropdown 
-            var name_dropdown = document.getElementById("nameselect");
-            var number_dropdown = document.getElementById("numberselect");
-            removeOptions(name_dropdown);
-            removeOptions(number_dropdown);
-
-            _.forEach(keys, key => {
-                var opt = document.createElement("option");
-                opt.text = key;
-                opt.value = key;
-                name_dropdown.options.add(opt.cloneNode(true));
-                number_dropdown.options.add(opt);
+            $(document).ready(function () {
+                table_element = $('#table-id').DataTable({
+                    "columns": [
+                        null,
+                        null,
+                        null,
+                        { "orderDataType": "dom-image-check" },
+                    ]
+                });
             });
+            function removeOptions(selectElement) {
+                var i, L = selectElement.options.length - 1;
+                for (i = L; i >= 0; i--) {
+                    selectElement.remove(i);
+                }
+            }
 
+            function processParsedCSV(results) {
+                csvData = results['data'];
+                const keys = _.keys(_.first(results['data']));
 
-        }
+                //Add options for the dropdown 
+                var name_dropdown = document.getElementById("nameselect");
+                var number_dropdown = document.getElementById("numberselect");
+                removeOptions(name_dropdown);
+                removeOptions(number_dropdown);
 
-        $('#files').change(function (event) {
-            // File changed, parse it
-            $('#files').parse({
-                config: {
+                _.forEach(keys, key => {
+                    // Add dropdown options of table columns
+                    var opt = document.createElement("option");
+                    opt.text = key;
+                    opt.value = key;
+                    name_dropdown.options.add(opt.cloneNode(true));
+                    number_dropdown.options.add(opt);
+                });
+            }
 
-                    header: true,
-                    complete: processParsedCSV,
-                },
-                before: function (file, inputElem) {
-                },
-                error: function (err, file) {
+            $('#files').change(function (event) {
+                // File changed, parse it
+                $('#files').parse({
+                    config: {
+                        header: true,
+                        complete: processParsedCSV,
+                    },
+                    before: function (file, inputElem) {
+                    },
+                    error: function (err, file) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Unable to process file, please try with different file'
+                        }
+                        );
+                    },
+                    complete: function () {
+
+                    }
+                });
+            })
+
+            function getCleanNumber(num) {
+                matches = num.match(/\d+/g);
+                var num_clean = ""
+                _.forEach(matches, function (match) {
+                    num_clean += match
+                })
+                if (num_clean.length == 10) {
+                    num_clean = "91" + num_clean;
+                }
+                return num_clean;
+            }
+
+            function titleCase(str) {
+                str = str.toLowerCase().split(' ');
+                for (var i = 0; i < str.length; i++) {
+                    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+                }
+                return str.join(' ');
+            }
+
+            function getMessageToSend(message, name) {
+                var newMessage = message;
+                if (name) {
+                    newMessage = `Hi ${name},\n` + message
+                } else {
+                    newMessage = `Hi,\n` + message
+                }
+                return newMessage;
+
+            }
+
+            var urlsList = [];
+            var timer = null;
+            window.tabWindows = false;
+
+            function openURLinWindow(item) {
+                var win = window.open(item['url'], "com_defcon007_whatsSend");
+                addToProcessedTable(item);
+                return win;
+            }
+
+            function addToProcessedTable(item) {
+                var row_node = table_element.row.add([
+                    item['index'],
+                    item['name'],
+                    item['number'],
+                    ' ',
+                ]).draw(false).node();
+                var tds = row_node.getElementsByTagName("td");
+                tds[3].setAttribute('data', item['number']);
+                tds[3].setAttribute('data-type', 'status');
+            }
+
+            async function polling() {
+                if (urlsList.length == 0) {
+                    // Make status of all empty as warning now! 
+                    var elems = document.querySelectorAll("td[data-type='status']")
+                    for (var i = 0; i < elems.length; i++) {
+                        elem = elems[i];
+                        if (!(elem.innerHTML.toString().trim())) {
+                            // No status added right now add one
+                            elem.innerHTML = "<img src='https://raw.githubusercontent.com/DefCon-007/WhatSend/master/images/Warning.svg?sanitize=true' />"
+                        }
+                    }
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Unable to process file, please try with different file'
+                        icon: 'success',
+                        title: 'All messages sent!'
                     }
                     );
-                },
-                complete: function () {
+                    clearInterval(window.timer);
+                    return;
+                }
+                if (window.tabWindow && window.tabWindow.closed) {
+                    window.tabWindow = openURLinWindow(urlsList.pop())
+                }
+            }
 
+            function parseFormData() {
+                const numberCol = document.getElementById("numberselect").value;
+                const nameCol = document.getElementById("nameselect").value;
+                var messageStr = document.getElementById("message").value;
+
+                _.forEach(csvData, function (data, index) {
+                    console.log(data)
+                    const clean_number = getCleanNumber(data[numberCol]);
+                    const name = titleCase(data[nameCol]);
+                    const clean_message = getMessageToSend(messageStr, name);
+                    var url = `https://web.whatsapp.com/send?phone=${clean_number}&text=${clean_message}`;
+                    urlsList.push({
+                        url: url,
+                        name: name,
+                        index: csvData.length - index,
+                        number: clean_number
+                    });
+                })
+                window.tabWindow = openURLinWindow(urlsList.pop())
+                window.timer = setInterval('polling()', 1000);
+            }
+
+            window.addEventListener("message", function (event) {
+                // We only accept messages from ourselves
+                console.log("Listeninf mesg from webspage");
+                console.log(event)
+                if (event.source != window)
+                    return;
+
+                if (event.data.type && (event.data.type == "FROM_PAGE")) {
+                    console.log("Content script received message: " + event.data.text);
                 }
             });
-        })
-
-        function getCleanNumber(num) {
-            matches = num.match(/\d+/g);
-            var num_clean = ""
-            _.forEach(matches, function (match) {
-                num_clean += match
-            })
-            if (num_clean.length == 10) {
-                num_clean = "91" + num_clean;
-            }
-            return num_clean;
-        }
-        function titleCase(str) {
-            str = str.toLowerCase().split(' ');
-            for (var i = 0; i < str.length; i++) {
-                str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-            }
-            return str.join(' ');
-        }
-        function getMessageToSend(message, name) {
-            var newMessage = message;
-            if (name) {
-                newMessage = `Hi ${name},\n` + message
-            } else {
-                newMessage = `Hi,\n` + message
-            }
-            return newMessage;
-
-        }
-
-        var urlsList = [];
-        var timer = null;
-        window.tabWindows = false;
-
-        function openURLinWindow(url) {
-            return window.open(url, "com_defcon007_whatsSend");
-        }
-
-        async function polling() {
-            if (urlsList.length == 0) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'All messages sent!'
-                }
-                );
-                clearInterval(window.timer);
-                return;
-            }
-            if (window.tabWindow && window.tabWindow.closed) {
-                window.tabWindow = openURLinWindow(urlsList.pop())
-            }
-        }
-
-        function par() {
-            const numberCol = document.getElementById("numberselect").value;
-            const nameCol = document.getElementById("nameselect").value;
-            var messageStr = document.getElementById("message").value;
-
-            _.forEach(csvData, function (data) {
-                const clean_number = getCleanNumber(data[numberCol]);
-                const name = titleCase(data[nameCol]);
-                const clean_message = getMessageToSend(messageStr, name);
-                var url = `https://web.whatsapp.com/send?phone=${clean_number}&text=${clean_message}`;
-                urlsList.push(url);
-            })
-            window.tabWindow = openURLinWindow(urlsList.pop())
-            window.timer = setInterval('polling()', 1000);
-        }
-    </script>
+        </script>
 
 </body>
 

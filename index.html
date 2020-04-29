@@ -284,7 +284,7 @@
 
             function formSubmit() {
                 var messageStr = document.getElementById("message").value;
-                var msg = getMessageToSend(messageStr, "NAME").replace(new RegExp("\n", 'g'), "<br>");
+                var msg = getMessageToSend(messageStr, "NAME");
                 console.log(msg);
                 Swal.fire({
                     title: 'Following message will be sent to numbers in the file.',

@@ -39,15 +39,28 @@
 </head>
 
 <body>
-    <div id="logo">
+    <div id="logo" style="margin-top: 1%;margin-left: 1%;">
         <img src="./images/logo.png" height="50px">
     </div>
-    <form style="padding-left: 10%;padding-right: 10%;padding-top: 5%;" onsubmit="formSubmit();return false;">
-        <div>
-            <h3>Follow the below instructions to send a message to multiple people on WhatsApp.</h3>
 
-            <ol>
-                <li>Make sure you can access WhatsApp web in the current browser.
+    <div style="padding-left: 10%;padding-right: 10%;padding-top: 5%;">
+        <h3>Follow the below instructions to send a message to multiple people on WhatsApp.</h3>
+        <!-- <details>
+            <summary>Click to expand</summary> -->
+
+        <ol class="list-group list-group-flush">
+            <li class="list-group-item">
+                <span class="badge badge-pill badge-danger">Important</span>
+                Make sure the all the popups are allowed for <span>
+                    <u>https://whatsend.defcon007.com</u>
+                </span>. If you don't know how to do it, follow the steps mentioned <a>here</a>.
+            </li>
+
+            <li class="list-group-item"><span class="badge badge-pill badge-danger">Important</span>
+                Make sure you can access WhatsApp web in the current browser.
+                <details>
+                    <summary>Click here to know how to do it.</summary>
+
                     <ul>
                         <li>
                             Open WhatsApp web in a new tab by clicking <a href="https://web.whatsapp.com"
@@ -57,45 +70,54 @@
                             Log in with the account you wish to send message from, if not already logged in.
                         </li>
                         <li>
-                            If you are logged in at other places too, you will see option to use WhatsApp web here.
+                            If you are logged in at other places too, you will see option to use WhatsApp web
+                            here.
                             Click `Use here` option.
                         </li>
                         <li>
                             Close the tab.
                         </li>
                     </ul>
-                </li>
-                <li>Download the helper chrome extension from <a
-                        href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip">here</a> and load it
-                    in the browser by following the instructions from <a
-                        href="https://github.com/DefCon-007/WhatSend-extension/wiki/Installation">here</a>.
-                </li>
-                <li>
-                    You are good to go now. Just select the corresponding CSV file and then select the columns for name
-                    and mobile number, whatever message you type in the box below, value from name columns will
-                    automatically be appended to it.<br><br> i.e. if the message is, <span style="color:grey">This is a
-                        message</span>, following text will be sent to user whose name is UserName,<br><span
-                        style="color: #68d10d;">Hi
-                        Username,<br>This is a
-                        message</span><br>If name is not found in a row, the message will be as follows:<br>
-                    <span style="color: #68d10d;">Hi,<br>This is a
-                        message</span>
-                </li>
-            </ol>
-        </div>
+                </details>
+            </li>
+            <li class="list-group-item">Download the helper chrome extension from <a
+                    href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip">here</a> and load
+                it
+                in the browser by following the instructions from <a
+                    href="https://github.com/DefCon-007/WhatSend-extension/wiki/Installation">here</a>.
+            </li>
+            <li class="list-group-item">
+                You are good to go now. Just select the corresponding CSV file and then select the columns for
+                name
+                and mobile number, whatever message you type in the box below, value from name columns will
+                automatically be appended to it.<br><br> i.e. if the message is, <span style="color:grey">This
+                    is a
+                    message</span>, following text will be sent to user whose name is UserName,<br><span
+                    style="color: #68d10d;">Hi
+                    Username, This is a
+                    message</span><br>If name is not found in a row, the message will be as follows:<br>
+                <span style="color: #68d10d;">Hi, This is a
+                    message</span>
+            </li>
+        </ol>
+        <!-- </details> -->
+    </div>
+
+    <form style="padding-left: 10%;padding-right: 10%;padding-top: 5%;" onsubmit="formSubmit();return false;">
+        <h2>Specifications</h2>
         <hr>
         <div class="form-group">
             <label for="files">Upload a CSV file:</label>
             <input type="file" id="files" class="form-control" accept=".csv" required>
         </div>
         <div class="form-group">
-            <label for="nameselect">Selec column for name</label>
+            <label for="nameselect">Select column for name</label>
             <select id="nameselect">
             </select>
         </div>
 
         <div class="form-group">
-            <label for="numberselect">Selec column for number</label>
+            <label for="numberselect">Select column for number</label>
             <select id="numberselect">
             </select>
         </div>
@@ -126,7 +148,7 @@
             <tbody>
         </table>
         <p class="footer-heart">
-            Made with <g-emoji class="g-emoji" alias="heart"
+            Made with <g-emoji class="g-emoji" alias="code"
                 fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png">
                 <img class="emoji" alt="heart" height="20" width="20"
                     src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png"></g-emoji> by <a

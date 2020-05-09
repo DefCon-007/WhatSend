@@ -62,9 +62,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <!-- Custom css file -->
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -84,144 +81,192 @@
         href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.20/datatables.min.css" />
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.20/datatables.min.js"></script>
-
+    <!-- Custom css file -->
+    <link rel="stylesheet" type="text/css" href="./style.css" />
 </head>
 
 <body style="background-color: #f1f1f1;">
-    <div id="logo" style="margin-top: 1%;margin-left: 1%;">
-        <img src="./images/logo.png" height="50px">
-    </div>
 
-    <div style="padding-left: 10%;padding-right: 10%;padding-top: 5%;">
-        <h3>Follow the below instructions to send a message to multiple people on WhatsApp.</h3>
-
-
-        <ol class="list-group list-group-flush">
-            <li class="list-group-item">
-                <span class="badge badge-pill badge-danger">Important</span>
-                Make sure the all the popups are allowed for <span>
-                    <u>https://whatsend.defcon007.com</u>
-                </span>. If you don't know how to do it, follow the steps mentioned <a
-                    href="https://github.com/DefCon-007/WhatSend/wiki/Allow-popups-in-chrome" target="_blank">here</a>.
+    <nav>
+        <a href="https://whatsend.defcon007.com"  class="logo">
+            <img src="./images/logo.png" alt="logo" />
+        </a>
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="#" class="nav-link active" style="color:#f8615a">Home</a>
             </li>
-
-            <li class="list-group-item"><span class="badge badge-pill badge-danger">Important</span>
-                Make sure you can access WhatsApp web in the current browser.
-                <details>
-                    <summary>Click here to know how to do it.</summary>
-
-                    <ul>
-                        <li>
-                            Open WhatsApp web in a new tab by clicking <a href="https://web.whatsapp.com"
-                                target="_blank">here</a>.
-                        </li>
-                        <li>
-                            Log in with the account you wish to send message from, if not already logged in.
-                        </li>
-                        <li>
-                            If you are logged in at other places too, you will see option to use WhatsApp web
-                            here.
-                            Click `Use here` option.
-                        </li>
-                        <li>
-                            Close the tab.
-                        </li>
-                    </ul>
-                </details>
+            <li class="menu-item">
+                <a href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip" class="nav-link active" >Download Extension</a>
             </li>
-            <li class="list-group-item">Download the helper chrome extension from <a target="_blank"
-                    href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip">here</a> and load
-                it
-                in the browser by following the instructions from <a target="_blank"
-                    href="https://github.com/DefCon-007/WhatSend-extension/wiki/Installation">here</a>.
+            <li class="menu-item">
+                <a href="#instructions" class="nav-link">Instructions</a>
             </li>
-            <li class="list-group-item">
-                You are good to go now. Just select the corresponding CSV file and then select the columns for
-                name
-                and mobile number, whatever message you type in the box below, value from name columns will
-                automatically be appended to it.<br><br> i.e. if the message is, <span style="color:grey">This
-                    is a
-                    message</span>, following text will be sent to user whose name is UserName,<br><span
-                    style="color: #68d10d;">Hi
-                    Username, This is a
-                    message</span><br>If name is not found in a row, the message will be as follows:<br>
-                <span style="color: #68d10d;">Hi, This is a
-                    message</span>
+            <li class="menu-item">
+                <a href="#input_form" class="nav-link">Send Messages</a>
             </li>
-        </ol>
+            <li class="menu-item">
+                <a href="#result" class="nav-link">Result</a>
+            </li>
+            <li class="menu-item">
+                <a href="#about" class="nav-link">About</a>
+            </li>
+            <li class="menu-item">
+                <a href="#lab_social_icon_footer" class="nav-link">Contact</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="main">
 
+        <!-- <div style="padding-left: 10%;padding-right: 10%;padding-top: 5%;"> -->
 
-        <form style="padding-left: 10%;padding-right: 10%;padding-top: 5%;" onsubmit="formSubmit();return false;">
-            <h2>Specifications</h2>
-            <hr>
-            <div class="form-group">
-                <label for="files">Upload a CSV file:</label>
-                <input type="file" id="files" class="form-control" accept=".csv" required>
-            </div>
-            <div class="form-group">
-                <label for="nameselect">Select column for name</label>
-                <select id="nameselect">
-                </select>
-            </div>
+        <section id="about" align="center">
+            <h2>What is it?</h2>
+                <hr style="margin-left: 15%;margin-right: 15%;">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/O6O2DBLYAg0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </section>
+    
+        <section id="input_form">
 
-            <div class="form-group">
-                <label for="numberselect">Select column for number</label>
-                <select id="numberselect">
-                </select>
-            </div>
+            <form style="padding-left: 10%;padding-right: 10%" onsubmit="formSubmit();return false;">
+                <h2>Specifications</h2>
+                Configure the sender
+                <hr>
+                <div class="form-group">
+                    <label for="files">Upload a CSV file:</label><br>
+                    <span><i class="fa fa-info-circle"></i></span> The CSV file should have at least two columns, one for name and one for numbers.<br> The numbers should either be in international format (91 appended for India, 1 for US. If not found, India country code will be automatically appended)
+                    <input type="file" id="files" class="form-control" accept=".csv" required>
+                </div>
+                <div class="form-group">
+                    <label for="nameselect">Select column for name</label>
+                    <select id="nameselect">
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="message">Enter the message to send</label>
-                <textarea id="message" class="form-control" required> </textarea>
-            </div>
-            <div class="form-group">
-                <input type="submit" id="submit-file" class="btn btn-primary" />
-            </div>
-            <hr>
-        </form>
+                <div class="form-group">
+                    <label for="numberselect">Select column for number</label>
+                    <select id="numberselect">
+                    </select>
+                </div>
 
-        <h3 style="padding-left: 10%;padding-right: 10%;padding-top: 1%;">Processed numbers</h3>
-        <br>
-        <div class="container">
-            <table class="table table-striped table-bordered" id="table-id">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Number</th>
-                        <th data-type="@data-sort">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tbody>
-            </table>
+                <div class="form-group">
+                    <label for="message">Enter the message to send</label>
+                    <textarea id="message" class="form-control" required> </textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" id="submit-file" class="btn btn-primary" />
+                </div>
+                <hr>
+            </form>
+        </section>
 
+        <section id="result">
+            <div style="padding-left: 10%;padding-right: 10%;margin-top: 1%;">
+            <h3 >Processed numbers</h3>
+            As soon as you start sending messages this table will get filled with the numbers to which the message has been sent. 
         </div>
-    </div>
-
-    <section id="lab_social_icon_footer">
-        <div class="container">
-            <div class="text-center center-block">
-                <a href="https://github.com/DefCon-007" target="_blank"><i id="social-fb"
-                        class="fa fa-github fa-3x social"></i></a>
-                <a href="https://twitter.com/@defcon_007" target="_blank"><i id="social-tw"
-                        class="fa fa-twitter fa-3x social"></i></a>
-                <a href="https://defcon007.com" target="_blank"><i id="social-gp"
-                        class="fa fa-globe fa-3x social"></i></a>
-                <a href="mailto:ayushgoyal.iitkgp@gmail.com" target="_blank"><i id="social-em"
-                        class="fa fa-envelope-square fa-3x social"></i></a>
-            </div>
             <br>
-            <p class="footer-heart">
-                Made with <g-emoji class="g-emoji" alias="heart"
-                    fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png">
-                    <img class="emoji" alt="heart" height="20" width="20"
-                        src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png"></g-emoji> by <a
-                    href="https://defcon007.com" target="_blank">Ayush</a>
-            </p>
-        </div>
-    </section>
+            <div class="container">
+                <table class="table table-striped table-bordered" id="table-id">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Number</th>
+                            <th data-type="@data-sort">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tbody>
+                </table>
 
+            </div>
+        </section>
+        <section id='instructions'>
+            <h3>Important instructions</h3>
+
+            Follow the below instructions to get started<br>
+
+            <ol class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <span class="badge badge-pill badge-danger">Important</span>
+                    Make sure the all the popups are allowed for <span>
+                        <u>https://whatsend.defcon007.com</u>
+                    </span>. If you don't know how to do it, follow the steps mentioned <a
+                        href="https://github.com/DefCon-007/WhatSend/wiki/Allow-popups-in-chrome"
+                        target="_blank">here</a>.
+                </li>
+
+                <li class="list-group-item"><span class="badge badge-pill badge-danger">Important</span>
+                    Make sure you can access WhatsApp web in the current browser.
+                    <details>
+                        <summary>Click here to know how to do it.</summary>
+
+                        <ul>
+                            <li>
+                                Open WhatsApp web in a new tab by clicking <a href="https://web.whatsapp.com"
+                                    target="_blank">here</a>.
+                            </li>
+                            <li>
+                                Log in with the account you wish to send message from, if not already logged in.
+                            </li>
+                            <li>
+                                If you are logged in at other places too, you will see option to use WhatsApp web
+                                here.
+                                Click `Use here` option.
+                            </li>
+                            <li>
+                                Close the tab.
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li class="list-group-item">Download the helper chrome extension from <a target="_blank"
+                        href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip">here</a> and load
+                    it
+                    in the browser by following the instructions from <a target="_blank"
+                        href="https://github.com/DefCon-007/WhatSend-extension/wiki/Installation">here</a>.
+                </li>
+                <li class="list-group-item">
+                    You are good to go now. Just select the corresponding CSV file and then select the columns for
+                    name
+                    and mobile number, whatever message you type in the box below, value from name columns will
+                    automatically be appended to it.<br><br> i.e. if the message is, <span style="color:grey">This
+                        is a
+                        message</span>, following text will be sent to user whose name is UserName,<br><span
+                        style="color: #68d10d;">Hi
+                        Username, This is a
+                        message</span><br>If name is not found in a row, the message will be as follows:<br>
+                    <span style="color: #68d10d;">Hi, This is a
+                        message</span>
+                </li>
+            </ol>
+
+        </section>
+        <!-- </div> -->
+        <section id="lab_social_icon_footer">
+            <div class="container">
+                <div class="text-center center-block">
+                    <a href="https://github.com/DefCon-007" target="_blank"><i id="social-fb"
+                            class="fa fa-github fa-3x social"></i></a>
+                    <a href="https://twitter.com/@defcon_007" target="_blank"><i id="social-tw"
+                            class="fa fa-twitter fa-3x social"></i></a>
+                    <a href="https://defcon007.com" target="_blank"><i id="social-gp"
+                            class="fa fa-globe fa-3x social"></i></a>
+                    <a href="mailto:ayushgoyal.iitkgp@gmail.com" target="_blank"><i id="social-em"
+                            class="fa fa-envelope-square fa-3x social"></i></a>
+                </div>
+                <br>
+                <p class="footer-heart">
+                    Made with <g-emoji class="g-emoji" alias="heart"
+                        fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png">
+                        <img class="emoji" alt="heart" height="20" width="20"
+                            src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png"></g-emoji> by <a
+                        href="https://defcon007.com" target="_blank">Ayush</a>
+                </p>
+            </div>
+        </section>
+    </div>
+    <script type="text/javascript" src="./js/section.js"></script>
     <script>
         var csvData; null;
         var table_element = null;

@@ -25,11 +25,11 @@
   vertical-align: middle;
 }
 
-#logo {
+/* #logo {
   position: fixed;
   top: 0;
   left: 0;
-}
+} */
 
 #lab_social_icon_footer {
   padding: 40px 0;
@@ -75,4 +75,71 @@
 
 #lab_social_icon_footer #social-em:hover {
   color: #f39c12;
+}
+
+
+/* Nav bar */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+a.nav-link{
+  text-decoration:none;
+  color:inherit;
+
+}
+body{
+  position:relative;
+  /* font-family: 'Poppins', sans-serif; */
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (max-width: 979px) {
+  body {
+    padding-top: 30px;
+    position:relative;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+/* 
+section{
+  padding-top: 15px;
+} */
+
+
+
+nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index: 10000;
+  padding:5px 20px 5px 0px;
+  background:#fff;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.logo{
+  display:inline-block;
+  width:70px;
+  height:70px;
+}
+.logo img{
+  max-width:100%;
+  height:auto;
+}
+.menu-item{
+  display:inline-block;
+  margin-left:15px;
+}
+.menu-item a{
+  font-weight:400;
+  color:#808080;
+}
+
+section#about{
+  padding-top: 90px;
+  padding-bottom: 20px;
+  background-color:#a8a5a5;
 }

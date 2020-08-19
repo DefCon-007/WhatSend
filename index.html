@@ -153,6 +153,20 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="customCol1">Select column for custom data</label>
+                    <select id="customCol1">
+                    </select>
+                    <input id="customCol1_id" type="text" />
+                </div>
+
+                <div class="form-group">
+                    <label for="customCol2">Select column for custom data</label>
+                    <select id="customCol2">
+                    </select>
+                    <input id="customCol2_id" type="text" />
+                </div>
+
+                <div class="form-group">
                     <label for="message">Enter the message to send</label>
                     <textarea id="message" class="form-control" required> </textarea>
                 </div>
@@ -312,9 +326,23 @@
             //Add options for the dropdown 
             var name_dropdown = document.getElementById("nameselect");
             var number_dropdown = document.getElementById("numberselect");
+            var all_dropdowns = []
+
+            for (var counter=1; counter<=2; counter++){
+                var dropdown_element = document.getElementById(`customCol${counter}`)
+
+                if (dropdown_element){
+                    all_dropdowns.push(dropdown_element)
+                    removeOptions(dropdown_element)
+                }else {
+                    break;
+                }
+
+            }
+
             removeOptions(name_dropdown);
             removeOptions(number_dropdown);
-
+            var all_options = []
             _.forEach(keys, key => {
                 // Add dropdown options of table columns
                 var opt = document.createElement("option");
@@ -322,7 +350,16 @@
                 opt.value = key;
                 name_dropdown.options.add(opt.cloneNode(true));
                 number_dropdown.options.add(opt);
+                all_options.push(opt)
             });
+
+
+            // Add select options for all dropdowns
+            _.forEach(all_dropdowns, dropdown => {
+                _.forEach(all_options, option => {
+                   dropdown.options.add(option.cloneNode(true)); 
+                }) 
+            })
         }
 
         $('#files').change(function (event) {
@@ -367,13 +404,24 @@
             return str.join(' ');
         }
 
-        function getMessageToSend(message, name) {
+        function getMessageToSend(message, name, csvData) {
             var newMessage = message;
             if (name) {
                 newMessage = `Hi ${name},\n` + message
             } else {
                 newMessage = `Hi,\n` + message
             }
+
+            // Replace other values
+            if (csvData){
+                for (var counter = 1; counter <= 2; counter++) {
+                    var text_to_replace = document.getElementById(`customCol${counter}_id`).value
+                    var columnName = document.getElementById(`customCol${counter}`).value;
+                    newMessage = _.replace(newMessage, text_to_replace, csvData[columnName]);
+                }
+            }
+            
+
             return newMessage;
 
         }
@@ -417,6 +465,7 @@
                 }
                 );
                 clearInterval(window.timer);
+                clearTimeout();
                 return;
             }
             if (window.tabWindow && window.tabWindow.closed) {
@@ -426,7 +475,7 @@
 
         function formSubmit() {
             var messageStr = document.getElementById("message").value;
-            var msg = getMessageToSend(messageStr, "NAME");
+            var msg = getMessageToSend(messageStr, "NAME", null);
             console.log(msg);
             Swal.fire({
                 title: 'Following message will be sent to numbers in the file.',
@@ -455,7 +504,7 @@
                 console.log(data)
                 const clean_number = getCleanNumber(data[numberCol]);
                 const name = titleCase(data[nameCol]);
-                const clean_message = getMessageToSend(messageStr, name);
+                const clean_message = getMessageToSend(messageStr, name, data);
                 var url = `https://web.whatsapp.com/send?phone=${clean_number}&text=${clean_message}`;
                 urlsList.push({
                     url: url,

@@ -93,6 +93,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
         integrity="sha512-wJgJNTBBkLit7ymC6vvzM1EcSWeM9mmOu+1USHaRBbHkm6W9EgM0HY27+UtUaprntaYQJF75rc8gjxllKs5OIQ=="
         crossorigin="anonymous" />
+
+    <!-- Clusterize -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.js"
+        integrity="sha512-J9kWigtolF+Ur3ozrZwj18sLPTeAFNiwLxFHaXtmjKao7MZ1g3UWnTn8y1ChS48V2JM7ErQV2r1uMeMaplN+EA=="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.css"
+        integrity="sha512-67r8GWGen3CmoHmvKJtZyf5xmDlPBeIGHB89/778A/L28BmcSc+AHwn/toK+nZFgwu5x9XLD/PunV4twUtkOLA=="
+        crossorigin="anonymous" />
+
     <!-- Custom css file -->
     <link rel="stylesheet" type="text/css" href="./styles.css" />
 </head>
@@ -151,47 +160,43 @@
 
         <section id="input_form">
 
-            <form style="padding-left: 10%;padding-right: 10%"  onsubmit="formSubmit();return false;">
+            <form style="padding-left: 10%;padding-right: 10%" onsubmit="formSubmit();return false;" 
+                class="py-3"
+                name='specificationForm'>
                 <h2>Specifications</h2>
-                Configure the sender
+                Upload a CSV file or add list of mobile numbers, if both present only CSV file will be used.<br /><br />
+                The numbers should either be in international format (91 appended
+                for India, 1 for US. If not found, Indian country code(i.e. 91) will be automatically appended)
                 <hr>
-                <div class="form-group">
-                    <label for="files">Upload a CSV file:</label><br>
-                    <span><i class="fa fa-info-circle"></i></span> The CSV file should have at least two columns, one
-                    for name and one for numbers.<br> The numbers should either be in international format (91 appended
-                    for India, 1 for US. If not found, India country code will be automatically appended)
-                    <input type="file" id="files" class="form-control" accept=".csv" required>
-                </div>
-                <div class="form-group">
-                    <label for="nameselect">Select column for name</label>
-                    <select id="nameselect">
-                    </select>
-                </div>
+                <div class="form-group border p-3">
+                    <label for="csvFile">Upload a CSV file:</label><br>
+                    <span><i class="fa fa-info-circle"></i></span> The CSV file should have a column for numbers.
 
-                <div class="form-group">
+                    <input type="file" id="csvFile" class="form-control" accept=".csv">
+
                     <label for="numberselect">Select column for number</label>
-                    <select id="numberselect">
+                    <select id="numberselect" class="form-control">
                     </select>
+
+                    <br>
+                    <hr class="hr-text" data-content="OR">
+                    <br>
+
+                    <label for="commaSeparatedNumbers">List of numbers separated by comma</label><br>
+                    <span><i class="fa fa-info-circle"></i></span> The mobile numbers list should be <b>separated by
+                        comma</b>. For eg.
+                    9999999999, 123123123, 4321432112
+                    <input type="text" class="form-control" id="commaSeparatedNumbers">
+
                 </div>
 
                 <div id="customInputs" class="form-group">
-                    <div class="form-group">
-                        <label for="customCol1">Select column for custom data</label>
-                        <select id="customCol1">
-                        </select>
-                        <input id="customCol1_id" type="text" />
-                    </div>
 
-                    <div class="form-group">
-                        <label for="customCol2">Select column for custom data</label>
-                        <select id="customCol2">
-                        </select>
-                        <input id="customCol2_id" type="text" />
-                    </div>
+                    
                 </div>
 
                 <div class="form-group">
-                    <button onclick="addCustomField();" type="button" class="btn btn-dark">Add custom field</button>
+                    <button onclick="addCustomField();" type="button" class="btn btn-info">Add custom field</button>
                 </div>
 
                 <div class="form-group">
@@ -199,7 +204,7 @@
                     <textarea id="message" class="form-control" required> </textarea>
                 </div>
                 <div class="form-group">
-                    <input type="submit" id="submit-file" class="btn btn-primary" />
+                    <input type="submit" id="submit-file" class="btn btn-success" />
                 </div>
                 <hr>
             </form>
@@ -314,11 +319,11 @@
         </section>
     </div>
     <script>
-        var csvData; null;
+        var csvData = [];
         var table_element = null;
 
         $.fn.dataTable.ext.order['dom-image-check'] = function (settings, col) {
-            return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+            return this.api().column(col).nodes().map(function (td, i) {
                 if (td.getAttribute('data-sort') === "success") {
                     return '1'
                 } else {
@@ -341,18 +346,25 @@
                 ]
             });
         });
-        const baseCustomElemSelectId = "customSelect";
-        const baseCustomElemInputId = "customInput";
+        const CUSTOM_ELEMENT_CONTAINER_ID = 'customInputs'
+
+        function replaceAll(data, findStr, replaceStr){
+            if (data){
+                return data.replace(new RegExp(findStr, "g"), replaceStr)
+            } else {
+                return ""
+            }
+        }
 
         function getCurrentCustomDataCount() {
-            const customElements = document.getElementById('customInputs');
+            const customElements = document.getElementById(CUSTOM_ELEMENT_CONTAINER_ID);
             return customElements.childElementCount;
         }
 
 
 
         function addCustomField() {
-            const outerContainerDiv = document.getElementById('customInputs')
+            const outerContainerDiv = document.getElementById(CUSTOM_ELEMENT_CONTAINER_ID)
             const newElementUID = `${getCurrentCustomDataCount() + 1}-${new Date().getTime()}`
             var id = `customInputData-${newElementUID}`
 
@@ -400,7 +412,7 @@
             customElemDiv.appendChild(removeButton)
 
             outerContainerDiv.appendChild(customElemDiv);
-
+            updateSelectOptions(select)
 
             $.toast({
                 heading: 'New custom text element added', // Optional heading to be shown on the toast
@@ -433,6 +445,11 @@
             });
         }
 
+        function addCustomFieldDataToMessage(message){
+            const container = document.getElementById(CUSTOM_ELEMENT_CONTAINER_ID);
+            const customElements = container.childNodes;
+        }
+
         function removeOptions(selectElement) {
             var i, L = selectElement.options.length - 1;
             for (i = L; i >= 0; i--) {
@@ -440,56 +457,50 @@
             }
         }
 
+        function updateSelectOptions(selectElement) {
+            const keys = _.keys(_.first(csvData));
+            const numberSelectElement = document.getElementById('numberselect');
 
-        function processParsedCSV(results) {
-            csvData = results['data'];
-            const keys = _.keys(_.first(results['data']));
-
-            //Add options for the dropdown 
-            var name_dropdown = document.getElementById("nameselect");
-            var number_dropdown = document.getElementById("numberselect");
-            var all_dropdowns = []
-
-            for (var counter = 1; counter <= 2; counter++) {
-                var dropdown_element = document.getElementById(`customCol${counter}`)
-
-                if (dropdown_element) {
-                    all_dropdowns.push(dropdown_element)
-                    removeOptions(dropdown_element)
-                } else {
-                    break;
-                }
-
-            }
-
-            removeOptions(name_dropdown);
-            removeOptions(number_dropdown);
             var all_options = []
             _.forEach(keys, key => {
                 // Add dropdown options of table columns
                 var opt = document.createElement("option");
                 opt.text = key;
                 opt.value = key;
-                name_dropdown.options.add(opt.cloneNode(true));
-                number_dropdown.options.add(opt);
                 all_options.push(opt)
             });
 
+            let customElements = []
+            if (selectElement){
+                customElements = [selectElement]
+            } else {
+                customElements.push(numberSelectElement)
+                customElementsContainer = document.getElementById(CUSTOM_ELEMENT_CONTAINER_ID).getElementsByTagName('div')
+                _.forEach(customElementsContainer, customElement => {
 
-            // Add select options for all dropdowns
-            _.forEach(all_dropdowns, dropdown => {
+                    const selectElement = customElement.getElementsByTagName('select')[0]
+                    customElements.push(selectElement)
+                })
+            }
+
+            _.forEach(customElements, selectElement => {
+                
+                removeOptions(selectElement)
                 _.forEach(all_options, option => {
-                    dropdown.options.add(option.cloneNode(true));
+                    selectElement.options.add(option.cloneNode(true));
                 })
             })
         }
 
-        $('#files').change(function (event) {
+        $('#csvFile').change(function (event) {
             // File changed, parse it
-            $('#files').parse({
+            $('#csvFile').parse({
                 config: {
                     header: true,
-                    complete: processParsedCSV,
+                    complete: (results) => {
+                        csvData = results['data'];
+                        updateSelectOptions();
+                    }
                 },
                 before: function (file, inputElem) {
                 },
@@ -501,13 +512,26 @@
                     );
                 },
                 complete: function () {
-
+                    $.toast({
+                        heading: 'File parsing complete', // Optional heading to be shown on the toast
+                        text: `CSV file successfully parsed with ${_.size(csvData)} rows.`,
+                        icon: 'info', // Type of toast icon
+                        showHideTransition: 'slide', // fade, slide or plain
+                        allowToastClose: true, // Boolean value true or false
+                        hideAfter: 4000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                        stack: false, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                        position: 'bottom-left', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+                        textAlign: 'left',  // Text alignment i.e. left, right or center
+                        loader: false
+                    });
                 }
             });
         })
 
         function getCleanNumber(num) {
-            matches = num.match(/\d+/g);
+            const digitRegex = /\d+/g;
+
+            matches = digitRegex.exec(num)
             var num_clean = ""
             _.forEach(matches, function (match) {
                 num_clean += match
@@ -526,26 +550,32 @@
             return str.join(' ');
         }
 
-        function getMessageToSend(message, name, csvData) {
-            var newMessage = message;
-            if (name) {
-                newMessage = `Hi ${name},\n` + message
-            } else {
-                newMessage = `Hi,\n` + message
+        function getListOfCleanMobileNumbers(){
+            const validNumbers = []
+            const invalidNumbers = []
+            let totalNumbers = []
+            // Returns the array of mobile numbers to which the message will be sent
+            if (specificationForm.csvFile.value) {
+                // Get mobile number list from CSV
+                const numberCol = document.getElementById("numberselect").value;
+                totalNumbers = _.map(csvData, numberCol)
+
+            } else if (specificationForm.commaSeparatedNumbers.value) {
+                // Get mobile number list from input field
+                totalNumbers = _.split(specificationForm.commaSeparatedNumbers.value, ',')
             }
 
-            // Replace other values
-            if (csvData) {
-                for (var counter = 1; counter <= 2; counter++) {
-                    var text_to_replace = document.getElementById(`customCol${counter}_id`).value
-                    var columnName = document.getElementById(`customCol${counter}`).value;
-                    newMessage = _.replace(newMessage, text_to_replace, csvData[columnName]);
+            _.forEach(totalNumbers, number => {
+                let cleanNumber = getCleanNumber(number);
+                if (cleanNumber) {
+                    validNumbers.push(cleanNumber);
+                } else {
+                    invalidNumbers.push(number)
                 }
-            }
 
+            })
 
-            return newMessage;
-
+            return { invalidNumbers, validNumbers, totalNumbers}
         }
 
         var urlsList = [];
@@ -596,52 +626,184 @@
         }
 
         function formSubmit() {
+            if (!specificationForm.csvFile.value && !specificationForm.commaSeparatedNumbers.value) {
+                // Neither csv file nor mobile number list provided
+                $.toast({
+                    heading: 'Essential data missing', // Optional heading to be shown on the toast
+                    text: 'Either upload a CSV file with numbers column or add a list of mobile numbers',
+                    icon: 'error', // Type of toast icon
+                    showHideTransition: 'slide', // fade, slide or plain
+                    allowToastClose: true, // Boolean value true or false
+                    hideAfter: false, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                    stack: false, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                    position: 'bottom-left', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+                    textAlign: 'left',  // Text alignment i.e. left, right or center
+                    loader: false
+                });
+                return false;
+            }
+
             var messageStr = document.getElementById("message").value;
-            var msg = getMessageToSend(messageStr, "NAME", null);
-            console.log(msg);
-            Swal.fire({
-                title: 'Following message will be sent to numbers in the file.',
-                html: msg,
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonColor: '#25cf19',
-                cancelButtonColor: '#db1818',
-                confirmButtonText: 'Yes, send it!'
-            }).then((result) => {
-                if (result.value) {
-                    parseFormData();
+            // Get preview message 
+            const dataToUpdate = getListOfValuesToReplace();
+            var previewMessage = messageStr;
+            var messageToSend = messageStr
+
+
+           
+
+            _.forEach(dataToUpdate, dataToReplace => {
+                previewMessage = replaceAll(previewMessage, dataToReplace.keyToReplace, `<i><b>${dataToReplace.columnName}</b></i>`)
+                if (!specificationForm.csvFile.value && specificationForm.commaSeparatedNumbers.value) {
+                    // Sending message to list of numbers, replace numbers
+                    messageToSend = replaceAll(messageToSend, dataToReplace.keyToReplace, "");
                 }
             })
+            previewMessage = replaceAll(previewMessage, '\r\n', '<br>')
+            previewMessage = replaceAll(previewMessage, '\n', '<br>')
+            previewMessage = replaceAll(previewMessage, '\r', '<br>')
+
+            const {invalidNumbers, validNumbers, totalNumbers}  = getListOfCleanMobileNumbers()
+
+            const sweetAlertQueue = []
+
+            let progressSteps = ['1', '2']
+
+            if (_.size(invalidNumbers) > 0){
+                const invalidNumberList = _.join(_.map(invalidNumbers, number => {
+                    return `<li>${number}</li>`
+                }), "")
+
+                const alertText = `Following ${_.size(invalidNumbers)} out of ${_.size(csvData)}  number(s) are invalid for which message cannot be sent. Either update them after clicking Cancel or click Next to continue<br />
+                <div class="clusterize-scroll px-5 py-2">
+                    <ol class="clusterize-content">${invalidNumberList}</ol>
+                </div>
+                `
+                sweetAlertQueue.push({
+                    title: 'Invalid Numbers',
+                    html: alertText,
+                })
+
+                progressSteps = ['1', '2', '3']
+            }
+
+            // List of valid numbers
+            const validNumberList = _.join(_.map(validNumbers, number => {
+                return `<li>${number}</li>`
+            }), "")
+            const validNumberAlertText = `Message will be sent to the following ${_.size(validNumbers)} out of ${_.size(csvData)} number(s).<br />
+            <div class="clusterize-scroll px-5 py-2">
+                <ol class="clusterize-content">${validNumberList}</ol>
+            </div>
+                `
+            sweetAlertQueue.push({
+                title: 'Valid Numbers', 
+                html: validNumberAlertText
+            })
+
+             sweetAlertQueue.push(
+                {
+                     title: 'Message preview',
+                     html: previewMessage,
+                     showCancelButton: true,
+                     confirmButtonColor: '#25cf19',
+                     confirmButtonText: 'Start Sending'
+                 }
+            )
+
+            Swal.mixin({
+                confirmButtonText: 'Next &rarr;',
+                showCancelButton: true,
+                progressSteps: progressSteps
+            }).queue(sweetAlertQueue).then((result) => {
+                if (result.value) {
+                    if (!specificationForm.csvFile.value && specificationForm.commaSeparatedNumbers.value){
+                        startMessageSending(validNumbers, messageToSend);
+                    } else {
+                        // Sending to list of numbers from CSV file
+                        startMessageSending(null, messageToSend);
+                    }
+                    
+                }
+            })
+
         }
 
-        function parseFormData() {
+        function getListOfValuesToReplace(){
+            const dataToUpdate = [];
+            let customElementsContainer = document.getElementById(CUSTOM_ELEMENT_CONTAINER_ID).getElementsByTagName('div')
+            _.forEach(customElementsContainer, customElement => {
+                try {
+                    const selectElement = customElement.getElementsByTagName('select')[0]
+                    const replacementKey = customElement.getElementsByTagName('input')[0]
+
+                    if (selectElement.value && replacementKey.value) {
+                        dataToUpdate.push({
+                            columnName: selectElement.value,
+                            keyToReplace: replacementKey.value
+                        })
+                    }
+                } catch(e) {
+                    
+                }
+                
+            })
+
+            return dataToUpdate;
+        }
+
+        function getWhatsAppAPIURL(number, message){
+            return `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(message)}`;
+        }
+
+        function startMessageSending(numbersToSend, messageToSend) {
             const numberCol = document.getElementById("numberselect").value;
-            const nameCol = document.getElementById("nameselect").value;
             var messageStr = document.getElementById("message").value;
 
-            _.forEach(csvData, function (data, index) {
-                if (!(data[numberCol])) {
-                    return;
-                }
-                console.log(data)
-                const clean_number = getCleanNumber(data[numberCol]);
-                const name = titleCase(data[nameCol]);
-                const clean_message = getMessageToSend(messageStr, name, data);
-                var url = `https://web.whatsapp.com/send?phone=${clean_number}&text=${clean_message}`;
-                urlsList.push({
-                    url: url,
-                    name: name,
-                    index: csvData.length - index,
-                    number: clean_number
-                });
-            })
+            if (numbersToSend){
+                // CSV file was not added, send message directly
+                _.forEachRight(numbersToSend, function(number, index) {
+                    let url = getWhatsAppAPIURL(number, messageToSend); 
+                    urlsList.push({
+                        url: url,
+                        name: "",
+                        index: index + 1,
+                        number: number
+                    });
+                })
+            } else {
+                // Parse CSV file to send
+                const dataToUpdate = getListOfValuesToReplace();
+
+                _.forEachRight(csvData, function (data, index) {
+                    const clean_number = getCleanNumber(data[numberCol]);
+                    if (!clean_number) {
+                        return;
+                    }
+
+                    // Replace variable in message
+                    const clean_message = messageToSend
+                    _.forEach(dataToUpdate, dataToReplace => {
+                        clean_message = replaceAll(clean_message, dataToReplace.keyToReplace, _.get(data, dataToReplace.columnName));
+                    });
+
+                    var url = getWhatsAppAPIURL(clean_number, clean_message)
+                    urlsList.push({
+                        url: url,
+                        name: name,
+                        index: index + 1,
+                        number: clean_number
+                    });
+                })
+            }
+            
             window.tabWindow = openURLinWindow(urlsList.pop())
             window.timer = setInterval('polling()', 1000);
         }
 
         window.addEventListener("message", function (event) {
             // We only accept messages from ourselves
-            console.log("Listeninf mesg from webspage");
+            console.log("Listening msg from webspage");
             console.log(event)
             if (event.source != window)
                 return;

@@ -152,18 +152,24 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="customCol1">Select column for custom data</label>
-                    <select id="customCol1">
-                    </select>
-                    <input id="customCol1_id" type="text" />
+                <div id="customInputs" class="form-group">
+                    <div class="form-group">
+                        <label for="customCol1">Select column for custom data</label>
+                        <select id="customCol1">
+                        </select>
+                        <input id="customCol1_id" type="text" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customCol2">Select column for custom data</label>
+                        <select id="customCol2">
+                        </select>
+                        <input id="customCol2_id" type="text" />
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="customCol2">Select column for custom data</label>
-                    <select id="customCol2">
-                    </select>
-                    <input id="customCol2_id" type="text" />
+                    <button onclick="addCustomField();" type="button" class="btn btn-dark">Add custom field</button>
                 </div>
 
                 <div class="form-group">
@@ -312,12 +318,82 @@
                 ]
             });
         });
+        const baseCustomElemSelectId = "customSelect";
+        const baseCustomElemInputId = "customInput";
+
+        function getCurrentCustomDataCount() {
+            const customElements = document.getElementById('customInputs');
+            return customElements.childElementCount;
+        }
+
+
+
+        function addCustomField(){
+            const outerContainerDiv = document.getElementById('customInputs')
+            const newElementUID = `${getCurrentCustomDataCount() + 1}-${new Date().getTime()}`
+            var id = `customInputData-${newElementUID}`
+            
+            const lineBreak = document.createElement("br")
+
+            const customElemDiv = document.createElement('div')
+            customElemDiv.setAttribute('class', 'form-group border p-3')
+            customElemDiv.setAttribute('id', id)
+
+            // Input and remove element button container             
+
+
+            const label = document.createElement('label')
+            const inputLabel = document.createElement('label')
+
+            const removeButton = document.createElement('button')
+            removeButton.innerText = "Remove field"
+            removeButton.setAttribute('type', 'button')
+            removeButton.setAttribute('class', 'btn btn-danger mt-2')
+            removeButton.setAttribute('onClick', `removeCustomField("${id}")`)
+
+            const SelectId =  `customSelect-${newElementUID}`
+            label.setAttribute('for', SelectId)
+            label.innerText = "Select column for custom data"
+            const select = document.createElement('select')
+            select.setAttribute('id', SelectId)
+            select.setAttribute('class', 'form-control')
+
+            const input = document.createElement('input')
+            const inputId = `customInput-${newElementUID}`
+            input.setAttribute('type', 'text')
+            input.setAttribute('id', inputId)
+            input.setAttribute('class', 'form-control')
+            input.setAttribute('placeholder', 'Enter key to replace by')
+            inputLabel.innerText = "Key to be repalced from message"
+            inputLabel.setAttribute('for', inputId)
+            customElemDiv.appendChild(label)
+            customElemDiv.appendChild(select)
+            customElemDiv.appendChild(lineBreak)
+
+
+            customElemDiv.appendChild(inputLabel)
+            customElemDiv.appendChild(input)
+            
+            customElemDiv.appendChild(removeButton)
+
+            outerContainerDiv.appendChild(customElemDiv);
+        }
+
+        function removeCustomField(elementId){
+            const element = document.getElementById(elementId);
+            element.parentNode.removeChild(element);
+        }
+
+        addCustomField()
+        addCustomField()
+
         function removeOptions(selectElement) {
             var i, L = selectElement.options.length - 1;
             for (i = L; i >= 0; i--) {
                 selectElement.remove(i);
             }
         }
+
 
         function processParsedCSV(results) {
             csvData = results['data'];

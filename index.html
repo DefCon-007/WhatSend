@@ -76,7 +76,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.js"
         integrity="sha256-iAuxnf8Cwr0yrQkpf6oQG4PaL/oVmoer6V/RfX2KQws=" crossorigin="anonymous"></script>
 
-        <!-- DataTable -->
+    <!-- DataTable -->
 
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.21/b-1.6.3/b-flash-1.6.3/b-html5-1.6.3/b-print-1.6.3/r-2.2.5/datatables.min.css" />
@@ -85,7 +85,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript"
         src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.21/b-1.6.3/b-flash-1.6.3/b-html5-1.6.3/b-print-1.6.3/r-2.2.5/datatables.min.js"></script>
-    
+
     <!-- Toast notification https://github.com/kamranahmedse/jquery-toast-plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
@@ -93,14 +93,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
         integrity="sha512-wJgJNTBBkLit7ymC6vvzM1EcSWeM9mmOu+1USHaRBbHkm6W9EgM0HY27+UtUaprntaYQJF75rc8gjxllKs5OIQ=="
         crossorigin="anonymous" />
-        <!-- Custom css file -->
+    <!-- Custom css file -->
     <link rel="stylesheet" type="text/css" href="./styles.css" />
 </head>
 
 <body style="background-color: #f1f1f1;">
 
     <nav>
-        <a href="https://whatsend.defcon007.com"  class="logo">
+        <a href="https://whatsend.defcon007.com" class="logo">
             <img src="./images/logo.png" alt="logo" />
         </a>
         <ul class="menu">
@@ -108,7 +108,8 @@
                 <a href="#" class="nav-link active" style="color:#f8615a">Home</a>
             </li>
             <li class="menu-item">
-                <a href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip" class="nav-link active" >Download Extension</a>
+                <a href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip"
+                    class="nav-link active">Download Extension</a>
             </li>
             <li class="menu-item">
                 <a href="#instructions" class="nav-link">Instructions</a>
@@ -128,33 +129,37 @@
         </ul>
     </nav>
 
-<div class="toast">
-    <div class="toast-header">
-        Toast Header
+    <div class="toast">
+        <div class="toast-header">
+            Toast Header
+        </div>
+        <div class="toast-body">
+            Some text inside the toast body
+        </div>
     </div>
-    <div class="toast-body">
-        Some text inside the toast body
-    </div>
-</div>
     <div class="main">
 
         <!-- <div style="padding-left: 10%;padding-right: 10%;padding-top: 5%;"> -->
 
         <section id="about" align="center">
             <h2>What is it?</h2>
-                <hr style="margin-left: 15%;margin-right: 15%;">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/tz088WQSjGw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <hr style="margin-left: 15%;margin-right: 15%;">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/tz088WQSjGw" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
         </section>
-    
+
         <section id="input_form">
 
-            <form style="padding-left: 10%;padding-right: 10%" onsubmit="formSubmit();return false;">
+            <form style="padding-left: 10%;padding-right: 10%"  onsubmit="formSubmit();return false;">
                 <h2>Specifications</h2>
                 Configure the sender
                 <hr>
                 <div class="form-group">
                     <label for="files">Upload a CSV file:</label><br>
-                    <span><i class="fa fa-info-circle"></i></span> The CSV file should have at least two columns, one for name and one for numbers.<br> The numbers should either be in international format (91 appended for India, 1 for US. If not found, India country code will be automatically appended)
+                    <span><i class="fa fa-info-circle"></i></span> The CSV file should have at least two columns, one
+                    for name and one for numbers.<br> The numbers should either be in international format (91 appended
+                    for India, 1 for US. If not found, India country code will be automatically appended)
                     <input type="file" id="files" class="form-control" accept=".csv" required>
                 </div>
                 <div class="form-group">
@@ -202,9 +207,10 @@
 
         <section id="result">
             <div style="padding-left: 10%;padding-right: 10%;margin-top: 1%;">
-            <h3 >Processed numbers</h3>
-            As soon as you start sending messages this table will get filled with the numbers to which the message has been sent. 
-        </div>
+                <h3>Processed numbers</h3>
+                As soon as you start sending messages this table will get filled with the numbers to which the message
+                has been sent.
+            </div>
             <br>
             <div class="container">
                 <table class="table table-striped table-bordered" id="table-id">
@@ -302,7 +308,7 @@
                         fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png">
                         <img class="emoji" alt="heart" height="20" width="20"
                             src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png"></g-emoji> by <a
-                        href="https://defcon007.com" target="_blank">Ayush</a>
+                        href="https://defcon007.com" target="_blank">DefCon</a>
                 </p>
             </div>
         </section>
@@ -345,11 +351,11 @@
 
 
 
-        function addCustomField(){
+        function addCustomField() {
             const outerContainerDiv = document.getElementById('customInputs')
             const newElementUID = `${getCurrentCustomDataCount() + 1}-${new Date().getTime()}`
             var id = `customInputData-${newElementUID}`
-            
+
             const lineBreak = document.createElement("br")
 
             const customElemDiv = document.createElement('div')
@@ -368,7 +374,7 @@
             removeButton.setAttribute('class', 'btn btn-danger mt-2')
             removeButton.setAttribute('onClick', `removeCustomField("${id}")`)
 
-            const SelectId =  `customSelect-${newElementUID}`
+            const SelectId = `customSelect-${newElementUID}`
             label.setAttribute('for', SelectId)
             label.innerText = "Select column for custom data"
             const select = document.createElement('select')
@@ -381,7 +387,7 @@
             input.setAttribute('id', inputId)
             input.setAttribute('class', 'form-control')
             input.setAttribute('placeholder', 'Enter key to replace by')
-            inputLabel.innerText = "Key to be repalced from message"
+            inputLabel.innerText = "Key to be replaced from message"
             inputLabel.setAttribute('for', inputId)
             customElemDiv.appendChild(label)
             customElemDiv.appendChild(select)
@@ -390,7 +396,7 @@
 
             customElemDiv.appendChild(inputLabel)
             customElemDiv.appendChild(input)
-            
+
             customElemDiv.appendChild(removeButton)
 
             outerContainerDiv.appendChild(customElemDiv);
@@ -410,7 +416,7 @@
 
         }
 
-        function removeCustomField(elementId){
+        function removeCustomField(elementId) {
             const element = document.getElementById(elementId);
             element.parentNode.removeChild(element);
 
@@ -444,13 +450,13 @@
             var number_dropdown = document.getElementById("numberselect");
             var all_dropdowns = []
 
-            for (var counter=1; counter<=2; counter++){
+            for (var counter = 1; counter <= 2; counter++) {
                 var dropdown_element = document.getElementById(`customCol${counter}`)
 
-                if (dropdown_element){
+                if (dropdown_element) {
                     all_dropdowns.push(dropdown_element)
                     removeOptions(dropdown_element)
-                }else {
+                } else {
                     break;
                 }
 
@@ -473,8 +479,8 @@
             // Add select options for all dropdowns
             _.forEach(all_dropdowns, dropdown => {
                 _.forEach(all_options, option => {
-                   dropdown.options.add(option.cloneNode(true)); 
-                }) 
+                    dropdown.options.add(option.cloneNode(true));
+                })
             })
         }
 
@@ -529,14 +535,14 @@
             }
 
             // Replace other values
-            if (csvData){
+            if (csvData) {
                 for (var counter = 1; counter <= 2; counter++) {
                     var text_to_replace = document.getElementById(`customCol${counter}_id`).value
                     var columnName = document.getElementById(`customCol${counter}`).value;
                     newMessage = _.replace(newMessage, text_to_replace, csvData[columnName]);
                 }
             }
-            
+
 
             return newMessage;
 

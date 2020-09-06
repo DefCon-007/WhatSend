@@ -75,6 +75,10 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.js"
         integrity="sha256-iAuxnf8Cwr0yrQkpf6oQG4PaL/oVmoer6V/RfX2KQws=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
 
     <!-- Sentry -->
     <script src="https://browser.sentry-cdn.com/5.22.3/bundle.tracing.min.js"
@@ -114,41 +118,42 @@
 
 <body style="background-color: #f1f1f1;">
 
-    <nav>
-        <a href="https://whatsend.defcon007.com" class="logo">
-            <img src="./images/logo.png" alt="logo" />
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a href="https://whatsend.defcon007.com" class="navbar-brand">
+            <img src="./images/logo.png" alt="logo" width="40" height="40"/>
         </a>
-        <ul class="menu">
-            <li class="menu-item">
-                <a href="#" class="nav-link active" style="color:#f8615a">Home</a>
-            </li>
-            <li class="menu-item">
-                <a href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip"
-                    class="nav-link active">Download Extension</a>
-            </li>
-            <li class="menu-item">
-                <a href="#instructions" class="nav-link">Instructions</a>
-            </li>
-            <li class="menu-item">
-                <a href="#input_form" class="nav-link">Send Messages</a>
-            </li>
-            <li class="menu-item">
-                <a href="#result" class="nav-link">Result</a>
-            </li>
-            <li class="menu-item">
-                <a href="#lab_social_icon_footer" class="nav-link">Contact</a>
-            </li>
-        </ul>
+        <button class="navbar-toggler navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" style="color:#f8615a">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://github.com/DefCon-007/WhatSend-extension/archive/master.zip"
+                        class="nav-link active">Download Extension</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#instructions" class="nav-link">Instructions</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#input_form" class="nav-link">Send Messages</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#result" class="nav-link">Result</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#lab_social_icon_footer" class="nav-link">Contact</a>
+                </li>
+            </ul>
+        </div>
+
     </nav>
 
-    <div class="toast">
-        <div class="toast-header">
-            Toast Header
-        </div>
-        <div class="toast-body">
-            Some text inside the toast body
-        </div>
-    </div>
     <div class="main">
 
         <!-- <div style="padding-left: 10%;padding-right: 10%;padding-top: 5%;"> -->
@@ -156,7 +161,7 @@
         <section id="about" align="center">
             <h2>What is it?</h2>
             <hr style="margin-left: 15%;margin-right: 15%;">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/tz088WQSjGw" frameborder="0"
+            <iframe width="40%" height="30%" src="https://www.youtube.com/embed/tz088WQSjGw" frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
         </section>

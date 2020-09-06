@@ -120,24 +120,6 @@ nav{
   box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-.logo{
-  display:inline-block;
-  width:70px;
-  height:70px;
-}
-.logo img{
-  max-width:100%;
-  height:auto;
-}
-.menu-item{
-  display:inline-block;
-  margin-left:15px;
-}
-.menu-item a{
-  font-weight:400;
-  color:#808080;
-}
-
 section#about{
   padding-top: 90px;
   padding-bottom: 20px;
@@ -146,17 +128,6 @@ section#about{
 
 
 /* Horizontal divider */
-// Base Divider class
-.divider {
-  display: flex;
-  
-  &:before,
-  &:after {
-    content: "";
-    flex: 1;
-  }
-}
-
 
 .hr-text {
   line-height: 1em;

@@ -352,6 +352,7 @@
             });
         });
         const CUSTOM_ELEMENT_CONTAINER_ID = 'customInputs'
+        let WINDOW_INTERVAL_IDS = []
 
         function replaceAll(data, findStr, replaceStr){
             if (data){
@@ -621,8 +622,11 @@
                     title: 'All messages sent!'
                 }
                 );
-                clearInterval(window.timer);
-                clearTimeout();
+                _.forEach(WINDOW_INTERVAL_IDS, intervalId => {
+                    clearInterval(intervalId);
+                    clearTimeout();
+                })
+                
                 return;
             }
             if (window.tabWindow && window.tabWindow.closed) {
@@ -803,7 +807,8 @@
             }
             
             window.tabWindow = openURLinWindow(urlsList.pop())
-            window.timer = setInterval('polling()', 1000);
+            var intervalId = setInterval('polling()', 1000);
+            WINDOW_INTERVAL_IDS.push(intervalId);
         }
 
         window.addEventListener("message", function (event) {

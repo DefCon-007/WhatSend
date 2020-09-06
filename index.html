@@ -76,6 +76,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.js"
         integrity="sha256-iAuxnf8Cwr0yrQkpf6oQG4PaL/oVmoer6V/RfX2KQws=" crossorigin="anonymous"></script>
 
+    <!-- Sentry -->
+    <script src="https://browser.sentry-cdn.com/5.22.3/bundle.tracing.min.js"
+        integrity="sha384-HfEJlGrJtFM0B01Wt4sGzTbxWqLMcMeGAXCbyQyB+iK9BhnDmNAtIGovhekIQOa2"
+        crossorigin="anonymous"></script>
+
     <!-- DataTable -->
 
     <link rel="stylesheet" type="text/css"
@@ -101,6 +106,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.css"
         integrity="sha512-67r8GWGen3CmoHmvKJtZyf5xmDlPBeIGHB89/778A/L28BmcSc+AHwn/toK+nZFgwu5x9XLD/PunV4twUtkOLA=="
         crossorigin="anonymous" />
+
 
     <!-- Custom css file -->
     <link rel="stylesheet" type="text/css" href="./styles.css" />
@@ -324,6 +330,12 @@
         </section>
     </div>
     <script>
+        // Initialise Sentry
+        Sentry.init({
+                dsn: 'https://39826ef3cf904086be3d8797c1bdc8c2@o166705.ingest.sentry.io/5418941',
+            });
+
+
         var csvData = [];
         var table_element = null;
 

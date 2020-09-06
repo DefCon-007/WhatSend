@@ -279,17 +279,22 @@
                         href="https://github.com/DefCon-007/WhatSend-extension/wiki/Installation">here</a>.
                 </li>
                 <li class="list-group-item">
-                    You are good to go now. Just select the corresponding CSV file and then select the columns for
-                    name
-                    and mobile number, whatever message you type in the box below, value from name columns will
-                    automatically be appended to it.<br><br> i.e. if the message is, <span style="color:grey">This
-                        is a
-                        message</span>, following text will be sent to user whose name is UserName,<br><span
-                        style="color: #68d10d;">Hi
-                        Username, This is a
-                        message</span><br>If name is not found in a row, the message will be as follows:<br>
-                    <span style="color: #68d10d;">Hi, This is a
-                        message</span>
+                    You are good to go now. Just select the corresponding CSV file and then select the column for
+                    mobile number, type your message and click Submit. <br><br>
+                    <b>Adding receiver's name to message</b><br>
+                    <ul>
+                        <li>Click on <i>Add custom field</i> to add a new custom field.</li>
+                        <li>Select the column from the dropdown which has the names of the receivers.</li>
+                        <li>In <i>Key to be replaced </i>box, type a unique key which will be present in the message.<br><b>Note: </b>All the instances of this key from the message will be replaced by the value from the column you selected.</li>
+                        <li>The <i>key</i> is case sensitive and should be unique, Some examples keys could be <b>{NAME}</b>, <b>"NAME"</b>, etc. Using <i>{</i> and <i>"</i> toi provide uniqueness.</li>
+                    </ul>
+                    And Voilà! All your messages will now have the dynamic names. 
+                    <br><br>
+                    The above method can be used to add any number of custom fields to create dynamic messages from the CSV file and add unique receiver specific attributes in the messages.
+                    <br><br>For example, if the key you selected is <b>NAME</b> which maps to name column in the CSV file and the message you type is, <br>
+                    <span style="color:grey">Hi NAME,<br>Thank you being a valuable customer. Please use the code NAME-123 as coupon code for 10% off.</span><br><br>If the name column has the value <i>John</i> for a customer, following will be the actual message that will be sent.<br>
+                    <span style="color: #68d10d;">Hi John,<br>Thank you being a valuable customer. Please use the code John-123 as coupon code for 10% off.</span>
+                    
                 </li>
             </ol>
 

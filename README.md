@@ -21,7 +21,15 @@
 
 - Send messages from a CSV file or manually add list of numbers.
 
-- Customize messages with receiver specific data from the CSV file like name, age, order id, etc. 
+- Customize messages with receiver specific data from the CSV file like name, age, order id, etc.
+
+### 🚀 Building
+
+- Clone this repository `git clone https://github.com/DefCon-007/WhatSend` and the chrome extension `git clone https://github.com/DefCon-007/WhatSend-extension`.
+
+- Open the `index.html` in chrome browser. And load the chrome enxtension by following the steps [here](https://github.com/DefCon-007/WhatSend-extension/wiki/Installation).
+
+- Follow the instructions on the webpage and start sending. 
 
 ## Author
 

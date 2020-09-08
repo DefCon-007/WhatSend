@@ -805,7 +805,7 @@
                     }
 
                     // Replace variable in message
-                    const clean_message = messageToSend
+                    let clean_message = messageToSend
                     _.forEach(dataToUpdate, dataToReplace => {
                         clean_message = replaceAll(clean_message, dataToReplace.keyToReplace, _.get(data, dataToReplace.columnName));
                     });
